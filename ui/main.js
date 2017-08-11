@@ -41,6 +41,6 @@ counterElement.onclick = function(){
     //Not done jet ==> ignore
     };
    //Make a request to the counter endpoint
-    request.open('GET', 'http://http://piriya3012.imad.hasura-app.io/counter', true);
+    request.open('GET', 'http://piriya3012.imad.hasura-app.io/counter', true);
     request.send(null);
 };
