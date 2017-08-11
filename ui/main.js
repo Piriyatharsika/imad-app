@@ -32,6 +32,6 @@ counterElement.onclick = function(){
     //Render the variable in the correct span
     counter = counter +1;
     var count = document.getElementById('count');
-    cont.innerHTML = counter.toString();
+    count.innerHTML = counter.toString();
     
 };
