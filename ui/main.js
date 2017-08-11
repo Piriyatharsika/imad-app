@@ -22,7 +22,6 @@ image.onclick = function(){
 
 //Counter
 var counterElement = document.getElementById('counter');
-var counter = 0;
 counterElement.onclick = function(){
     //Create a request object
     var request = new XMLHttpRequest();
