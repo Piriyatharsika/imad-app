@@ -1,6 +1,22 @@
 console.log('Loaded!');
 
+//change the content of html with id "main-text" in div
 
+var element = document.getElementById('main-text');
+element.innerHTML = 'New Value';
+
+
+//move image graduate every 50 ms to the right
+
+var image = document.getElementById('madi');
+var marginLeft = 0;
+function moveRight(){
+    marginLeft = marginLeft + 1;
+    image.style.marginLeft = marginLeft + 'px';
+}
+image.onclick = function(){
+    var interval = setInterval(moveRight, 50);
+};
 
 
 //Counter
@@ -18,4 +34,4 @@ counter.onclick = function(){
     var count = document.getElementById('count');
     cont.innerHTML = counter.toString();
     
-}
+};
