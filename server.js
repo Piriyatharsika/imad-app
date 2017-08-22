@@ -9,7 +9,7 @@ var config = {
   database: 'piriya3012',
   password: process.env.DB_PASSWORD,
   port: '5432',
-}
+};
 var app = express();
 app.use(morgan('combined'));
 
