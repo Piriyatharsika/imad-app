@@ -127,7 +127,7 @@ app.get('/submit-name/', function(req,res){ //?name=xxxx ==> query string
 });
 
 
-app.get('/artciles/:articleName', function(req, res){
+app.get('/articles/:articleName', function(req, res){
     //articleName == article-One
     //article[articleName] == {} content for the article one
     //var articleName = req.params.articleName;
