@@ -8,7 +8,7 @@ var config = {
   host: 'db.imad.hasura-app.io',
   database: 'piriya3012',
   password: process.env.DB_PASSWORD,
-  port: '80',
+  port: '5432',
 };
 var app = express();
 app.use(morgan('combined'));
