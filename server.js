@@ -131,7 +131,8 @@ app.get('/articles/:articleName', function(req, res){
     //articleName == article-One
     //article[articleName] == {} content for the article one
     //var articleName = req.params.articleName;
-    pool.query("SELECT * FROM article WHERE title = '" + req.params.articleName + "'", function(err,result){
+    //param $1 is as a placeholder and is used to make a safe input 
+    pool.query("SELECT * FROM article WHERE title = $1", [req.params.articleName], function(err,result){
         if(err){
             res.status(500).send(err.toString());
         }else{
