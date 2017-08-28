@@ -2,6 +2,7 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
 var Pool = require('pg').Pool;
+var crypto = require('crypto');
 
 var config = {
   user: 'piriya3012',
@@ -13,50 +14,6 @@ var config = {
 var app = express();
 app.use(morgan('combined'));
 
-
-var articles = {
-    'article-one' : {
-    title: 'Article One | Piriya',
-    heading: 'Article One',
-    content: `<p>
-                    This is Article one.This is Article one.This is Article one.This is Article one.This is Article one.
-                    This is Article one.
-                </p>
-                <p>
-                    This is Article one.This is Article one.This is Article one.This is Article one.This is Article one.
-                    This is Article one.
-                </p>
-                <p>
-                    This is Article one.This is Article one.This is Article one.This is Article one.This is Article one.
-                    This is Article one.
-                </p>`
-    },
-    'article-two' : {
-    title: 'Article Two | Piriya',
-    heading: 'Article Two',
-    content: `<p>
-                    This is Article one.This is Article one.This is Article one.This is Article one.This is Article one.
-                    This is Article one.
-                </p>
-                <p>
-                    This is Article one.This is Article one.This is Article one.This is Article one.This is Article one.
-                    This is Article one.
-                </p>
-                <p>
-                    This is Article one.This is Article one.This is Article one.This is Article one.This is Article one.
-                    This is Article one.
-                </p>`
-
-    },
-    'article-three' : {
-    title: 'Article Three | Piriya',
-    heading: 'Article Three',
-    content: `  <p>
-                    This is Article three.This is Article three.This is Article three.This is Article three.This is Article three.
-                    This is Article three.
-                </p>`
-    }
-};
 
 function createTemplate (data) {
     var title = data.title;
@@ -96,6 +53,18 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
+//Function which creates the hashed value
+function hash(input, salt){
+    //How do we create a hash??
+    var hashed = crypto.pbkdf2Sync(input, salt, 10000, 512, 'sha512'); // crypto Object has to be create as object on the top
+    return hashed.toString('hex');
+}
+app.get('/hash/:input', function(req, res){
+   var hashedString = hash(req.params.input,'this-is-some-random-string'); 
+   res.send(hashedString);
+});
+
+//Connection to database
 var pool = new Pool(config);
 app.get('/test-db',function(req,res){
     pool.query('SELECT * FROM test', function(err, result){
