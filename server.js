@@ -56,8 +56,11 @@ app.get('/', function (req, res) {
 //Function which creates the hashed value
 function hash(input, salt){
     //How do we create a hash??
+    //explanation of pbkdf2Sync: 
+        //1. input will be hashed to input+salt ==> 'password-this-is-some-random-string'
+        //2. This String will be hashed 10000times ==> hashvalue is unique
     var hashed = crypto.pbkdf2Sync(input, salt, 10000, 512, 'sha512'); // crypto Object has to be create as object on the top
-    return hashed.toString('hex');
+    return ['pbkdf2', '100000', salt, hashed.toString('hex')].join('$');
 }
 app.get('/hash/:input', function(req, res){
    var hashedString = hash(req.params.input,'this-is-some-random-string'); 
