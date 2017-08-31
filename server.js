@@ -98,7 +98,7 @@ app.post('/login', function(req, res){
          res.status(500).send(err.toString());
      }else{
          if(result.rows.length === 0){
-             res.status(403).send('username/password is invalid');
+             res.send(403).send('username/password is invalid');
          }else{
              //Have to match the password
              var dbString = result.rows[0].password;
@@ -107,7 +107,7 @@ app.post('/login', function(req, res){
              if(hashedPassword === doString){
                   res.send('user is exit '+ username);
              }else{
-                  res.status(403).send('username/password is invalid');
+                  res.send(403).send('username/password is invalid');
              }
             
          }
