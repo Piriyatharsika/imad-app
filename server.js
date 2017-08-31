@@ -72,10 +72,13 @@ app.get('/hash/:input', function(req, res){
 
 app.post('/create-user', function(req, res){
     
+    //JSON
+    //{username: 'Piriya', password: 'password'} This is a json object
+    // We will test the post request with curl: curl -XPOST --data '{"username": "Piriya", "password": "passsword"}' http://piriya3012.imad.hasura-app.io/create-user
     var username = req.body.username;
     var password = req.body.password;
     
-    var salt = crypto.getRandomBytes(128).toString('hex');
+    var salt = crypto.randomBytes(128).toString('hex');
     var doString = hash(password, salt);
     pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, doString], function(err, result){
      if(err){
