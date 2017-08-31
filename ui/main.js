@@ -82,7 +82,7 @@ submit.onclick = function(){
 };
 
 
-var submit = document.getElementById('submit_btn');
+/**var submit = document.getElementById('submit_btn');
 submit.onclick = function(){
     var nameInput = document.getElementById('name');
     var name = nameInput.value;
@@ -112,4 +112,4 @@ submit.onclick = function(){
     request.open('GET', 'http://piriya3012.imad.hasura-app.io/submit-name?name=' +name, true);
     request.send(null);
     
-};
+};**/
