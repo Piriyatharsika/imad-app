@@ -71,10 +71,9 @@ app.get('/hash/:input', function(req, res){
 
 
 app.post('/create-user', function(req, res){
-    
     //JSON
     //{username: 'Piriya', password: 'password'} This is a json object
-    // We will test the post request with curl: curl -XPOST --data '{"username": "Piriya", "password": "passsword"}' http://piriya3012.imad.hasura-app.io/create-user
+    // We will test the post request with curl: curl -v -XPOST -H 'Content-Type: application/json' --data '{"username": "Piriya", "password": "password"}' http://piriya3012.imad.hasura-app.io/create-user
     var username = req.body.username;
     var password = req.body.password;
     
@@ -88,6 +87,33 @@ app.post('/create-user', function(req, res){
      }
     });
     
+});
+
+app.post('/login', function(req,res){
+    var username = req.body.username;
+    var password = req.body.password;
+    
+    pool.query('SELECT * FROM "user" WHERE username = $1', [username], function(err, result){
+     if(err){
+         res.status(500).send(err.toString());
+     }else{
+         if(result.rows.length === 0){
+             res.status(403).send('username/password is invalid');
+         }else{
+             //Have to match the password
+             var dbString = result.rows[0].password;
+             var salt = dbString.split('$')[2]; // 2. Dollerzeichen
+             var hashedPassword = hash(password, salt);
+             if(hashedPassword === doString){
+                  res.send('user is exit '+ username);
+             }else{
+                  res.status(403).send('username/password is invalid');
+             }
+            
+         }
+         
+     }
+    });
 });
 
 //Connection to database
