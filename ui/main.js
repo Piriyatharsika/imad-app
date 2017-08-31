@@ -21,7 +21,7 @@ image.onclick = function(){
 
 
 //Counter
-var counterElement = document.getElementById('counter');
+/**var counterElement = document.getElementById('counter');
 counterElement.onclick = function(){
     //Create a request object
     var request = new XMLHttpRequest();
@@ -42,10 +42,10 @@ counterElement.onclick = function(){
    //Make a request to the counter endpoint
     request.open('GET', 'http://piriya3012.imad.hasura-app.io/counter', true);
     request.send(null);
-};
+};**/
 
 
-//Submit name
+//Submit login
 
 var submit = document.getElementById('submit_login_btn');
 submit.onclick = function(){
