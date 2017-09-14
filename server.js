@@ -95,40 +95,36 @@ app.post('/create-user', function(req, res){
     
 });
 
-app.post('/login', function(req, res){
-    var username = req.body.username;
-    var password = req.body.password;
-    
-    pool.query('SELECT * FROM "user" WHERE username = $1', [username], function(err, result){
-     if(err){
-         res.status(500).send(err.toString());
-     }else{
-         if(result.rows.length === 0){
-             res.setHeader('Content-Type', 'application/json')
-             res.status(403).send(JSON.stringify({"error":"username/password is invalid"}));
-         }else{
-             //Have to match the password
-             var dbString = result.rows[0].password;
-             var salt = dbString.split('$')[2]; // 2. Dollerzeichen
-             var hashedPassword = hash(password, salt);
-             if(hashedPassword === doString){
-                 
-                 //set the session
-                 req.session.auth = {userId: result.rows[0].id};
-                 //set cookie wth the session id
-                 //internally, on the server side, it maps the session id to an object
-                 // sesion contains an auth variable in which the userid is included ==> {auth: {userid: }}
-                 res.send(JSON.stringify({"user is exit": username}));
+app.post('/login', function (req, res) {
+   var username = req.body.username;
+   var password = req.body.password;
+   res.setHeader('Content-Type', 'application/json');
+   pool.query('SELECT * FROM "users" WHERE username = $1', [username], function (err, result) {
+      if (err) {
+          res.status(500).send(err.toString());
+      } else {
+          if (result.rows.length === 0) {
+              res.status(403).send(JSON.stringify({"error":"Username/Password is incorrect"}));
+          } else {
+              // Match the password
+              var dbString = result.rows[0].password;
+              var salt = dbString.split('$')[2];
+              var hashedPassword = hash(password, salt); // Creating a hash based on the password submitted and the original salt
+              if (hashedPassword === dbString) {
                 
-             }else{
-                 res.setHeader('Content-Type', 'application/json')
-                 res.status(403).send(JSON.stringify({"error":"username/password is invalid"}));
-             }
-            
-         }
-        
-     }
-    });
+                // Set the session
+                req.session.auth = {userId: result.rows[0].id};
+                // set cookie with a session id
+                // internally, on the server side, it maps the session id to an object
+                // { auth: {userId }}
+                
+                res.send(JSON.stringify({"message":"credentials are correct"}));
+                
+              } else {
+                res.status(403).send(JSON.stringify({"error":"Username/Password is incorrect"}));              }
+          }
+      }
+   });
 });
 
 app.get('/check-login', function(req, res){
