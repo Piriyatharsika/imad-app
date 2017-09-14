@@ -128,13 +128,13 @@ app.post('/login', function (req, res) {
    });
 });
 
-app.get('/check-login', function(req, res){
-    if (req.session && req.session.auth && req.session.auth.userId){
-        res.send('you are logged in: '+ req.session.auth.userId.toString());
-    }else{
-      res.send(JSON.stringify({"message":"credentials correct"}));
-    }
-});
+//app.get('/check-login', function(req, res){
+  //  if (req.session && req.session.auth && req.session.auth.userId){
+    //    res.send('you are logged in: '+ req.session.auth.userId.toString());
+    //}else{
+      //res.send(JSON.stringify({"message":"credentials correct"}));
+    //}
+//});
 
 //Connection to database
 var pool = new Pool(config);
