@@ -71,7 +71,7 @@ function hash(input, salt){
 }
 app.get('/hash/:input', function(req, res){
    var hashedString = hash(req.params.input,'this-is-some-random-string'); 
-   res.send(hashedString);
+   res.send(JSON.stringify({"message":hashedString}));
 });
 
 
@@ -101,7 +101,8 @@ app.post('/login', function (req, res) {
    res.setHeader('Content-Type', 'application/json');
    pool.query('SELECT * FROM "users" WHERE username = $1', [username], function (err, result) {
       if (err) {
-          res.status(500).send(err.toString());
+          //res.status(500).send(err.toString());
+          res.status(500).send(JSON.stringify({"error":err.toString()}));
       } else {
           if (result.rows.length === 0) {
               res.status(403).send(JSON.stringify({"error":"Username/Password is incorrect"}));
