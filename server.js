@@ -11,7 +11,7 @@ var config = {
   host: 'db.imad.hasura-app.io',
   database: 'piriya3012',
   password: process.env.DB_PASSWORD,
-  port: 5432
+  port: '5432'
 };
 var app = express();
 app.use(morgan('combined'));
@@ -101,8 +101,8 @@ app.post('/login', function (req, res) {
    res.setHeader('Content-Type', 'application/json');
    pool.query('SELECT * FROM "users" WHERE username = $1', [username], function (err, result) {
       if (err) {
-          res.status(500).send(err.toString());
-          //res.status(500).send(JSON.stringify({"error":err.toString()}));
+          //res.status(500).send(err.toString());
+          res.status(500).send(JSON.stringify({"error":err.toString()}));
       } else {
           if (result.rows.length === 0) {
               res.status(403).send(JSON.stringify({"error":"Username/Password is incorrect"}));
