@@ -104,7 +104,7 @@ app.post('/login', function(req, res){
          res.status(500).send(err.toString());
      }else{
          if(result.rows.length === 0){
-             res.send(403).send('username/password is invalid');
+             res.status(403).send(JSON.stringify({"error":"username/password is invalid"}));
          }else{
              //Have to match the password
              var dbString = result.rows[0].password;
@@ -117,7 +117,8 @@ app.post('/login', function(req, res){
                  //set cookie wth the session id
                  //internally, on the server side, it maps the session id to an object
                  // sesion contains an auth variable in which the userid is included ==> {auth: {userid: }}
-                  res.send('user is exit '+ username);
+                 res.send(JSON.stringify({"user is exit": username}));
+                
              }else{
                   res.status(403).send(JSON.stringify({"error":"username/password is invalid"}));
              }
