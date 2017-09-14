@@ -11,7 +11,7 @@ var config = {
   host: 'db.imad.hasura-app.io',
   database: 'piriya3012',
   password: process.env.DB_PASSWORD,
-  port: '5432'
+  port: 5432
 };
 var app = express();
 app.use(morgan('combined'));
@@ -88,7 +88,8 @@ app.post('/create-user', function(req, res){
      if(err){
          res.status(500).send(err.toString());
      }else{
-         res.send('User successfully created '+ username);
+         var message = 'User successfully created: ' + username;
+            res.send(JSON.stringify({"message":message}));
      }
     });
     
@@ -118,7 +119,7 @@ app.post('/login', function(req, res){
                  // sesion contains an auth variable in which the userid is included ==> {auth: {userid: }}
                   res.send('user is exit '+ username);
              }else{
-                  res.send(403).send('username/password is invalid');
+                  res.status(403).send(JSON.stringify({"error":"username/password is invalid"}));
              }
             
          }
@@ -131,7 +132,7 @@ app.get('/check-login', function(req, res){
     if (req.session && req.session.auth && req.session.auth.userId){
         res.send('you are logged in: '+ req.session.auth.userId.toString());
     }else{
-       res.send('you are not logged in'); 
+      res.send(JSON.stringify({"message":"credentials correct"}));
     }
 });
 
