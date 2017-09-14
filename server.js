@@ -121,7 +121,8 @@ app.post('/login', function(req, res){
                  res.send(JSON.stringify({"user is exit": username}));
                 
              }else{
-                  res.status(403).send(JSON.stringify({"error":"username/password is invalid"}));
+                 res.setHeader('Content-Type', 'application/json')
+                 res.status(403).send(JSON.stringify({"error":"username/password is invalid"}));
              }
             
          }
